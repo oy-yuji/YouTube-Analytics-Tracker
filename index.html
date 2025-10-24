@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+      crossorigin="anonymous"
+    />
+    <title>YouTube Analytics Tracker</title>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <div class="container text-center">
+        <h1>YouTube Tracker</h1>
+        <p class="lead text-center">
+          The only <b>free</b> YouTube channel analytics tracker.
+        </p>
+      </div>
+      <div class="container text-center">
+        <p>Please enter your API key</p>
+      </div>
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          id="apiForm"
+          value=""
+          placeholder="Your API Key"
+          aria-label="User API Key"
+          aria-describedby="button-addon2"
+        />
+        <button class="btn btn-outline-secondary" type="button" id="apiButton">
+          Enter
+        </button>
+      </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      document
+        .getElementById("apiButton")
+        .addEventListener("click", (event) => {
+          document.getElementById("apiForm").value =
+            " ";
+          let apiKey = document.getElementById("apiForm").value.trim();
+          localStorage.setItem("apiKey", apiKey);
+          location.href = "main.html";
+        });
+    </script>
+  </body>
+</html>

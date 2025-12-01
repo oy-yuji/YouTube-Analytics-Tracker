@@ -113,8 +113,10 @@ function attachTableHeaderListeners() {
     const field = th.dataset.field || "";
     const idx = Number(th.dataset.index);
     if (field === "channel") {
+      th.style.cursor = 'pointer';
       th.addEventListener("click", () => sortTable(idx));
     } else if (field === "subscribers" || field === "views" || field === "videos") {
+      th.style.cursor = 'pointer';
       th.addEventListener("click", () => sortTableNumerically(idx));
     }
   });
@@ -160,6 +162,11 @@ function fetchAndDisplayChannel(id) {
       viewCountCell.textContent = formatNumber(data.items[0].statistics.viewCount);
       videoCountCell.textContent = formatNumber(data.items[0].statistics.videoCount);
       channelIdCell.textContent = data.items[0].id;
+      channelIdCell.style.cursor = 'pointer';
+      channelIdCell.style.textDecoration = 'underline';
+      channelIdCell.addEventListener('click', () => {
+        chrome.tabs.create({ url: `https://www.youtube.com/channel/${data.items[0].id}` });
+      });
       row.addEventListener("dblclick", () => {
         row.remove();
         removeChannelIdFromLocalStorage(channelIdCell.textContent);
@@ -221,6 +228,11 @@ document
           viewCountCell.textContent = formatNumber(data.items[0].statistics.viewCount);
           videoCountCell.textContent = formatNumber(data.items[0].statistics.videoCount);
           channelIdCell.textContent = data.items[0].id;
+          channelIdCell.style.cursor = 'pointer';
+          channelIdCell.style.textDecoration = 'underline';
+          channelIdCell.addEventListener('click', () => {
+            chrome.tabs.create({ url: `https://www.youtube.com/channel/${data.items[0].id}` });
+          });
           saveChannelIdToLocalStorage(data.items[0].id);
 
           row.addEventListener("dblclick", () => {
@@ -270,6 +282,11 @@ document
           viewCountCell.textContent = formatNumber(data.items[0].statistics.viewCount);
           videoCountCell.textContent = formatNumber(data.items[0].statistics.videoCount);
           channelIdCell.textContent = data.items[0].id;
+          channelIdCell.style.cursor = 'pointer';
+          channelIdCell.style.textDecoration = 'underline';
+          channelIdCell.addEventListener('click', () => {
+            chrome.tabs.create({ url: `https://www.youtube.com/channel/${data.items[0].id}` });
+          });
 
           saveChannelIdToLocalStorage(data.items[0].id);
 

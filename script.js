@@ -92,9 +92,6 @@ function init() {
       return;
     }
 
-    // Load demo channels packaged with the extension
-    fetchJSONFileData();
-
     // Populate saved channels
     const saved = res.savedChannels || [];
     saved.forEach((id) => fetchAndDisplayChannel(id));
@@ -104,16 +101,6 @@ function init() {
 }
 
 window.addEventListener("DOMContentLoaded", init);
-
-//Function to load JSON file data.
-function fetchJSONFileData() {
-  fetch(chrome.runtime.getURL("savedChannels.json"))
-    .then((response) => response.json())
-    .then((channelIds) => {
-      channelIds.forEach((id) => fetchAndDisplayChannel(id));
-    })
-    .catch((err) => console.error("Failed to load savedChannels.json:", err));
-}
 
 // Attach click listeners to table headers (CSP-safe alternative to inline onclick)
 function attachTableHeaderListeners() {
@@ -130,14 +117,6 @@ function attachTableHeaderListeners() {
       th.style.cursor = 'pointer';
       th.addEventListener("click", () => sortTableNumerically(idx));
     }
-  });
-}
-
-//Function to load data from storage.
-function fetchLocalStorageData() {
-  chrome.storage.sync.get(["savedChannels"], (data) => {
-    let stored = data.savedChannels || [];
-    stored.forEach((id) => fetchAndDisplayChannel(id));
   });
 }
 
@@ -180,7 +159,7 @@ function fetchAndDisplayChannel(id) {
       });
       row.addEventListener("dblclick", () => {
         row.remove();
-        removeChannelIdFromLocalStorage(channelIdCell.textContent);
+        removeChannelIdFromStorage(channelIdCell.textContent);
       });
     })
     .catch((error) => {
@@ -244,11 +223,11 @@ document
           channelIdCell.addEventListener('click', () => {
             chrome.tabs.create({ url: `https://www.youtube.com/channel/${data.items[0].id}` });
           });
-          saveChannelIdToLocalStorage(data.items[0].id);
+          saveChannelIdToStorage(data.items[0].id);
 
           row.addEventListener("dblclick", () => {
             row.remove();
-            removeChannelIdFromLocalStorage(channelIdCell.textContent);
+            removeChannelIdFromStorage(channelIdCell.textContent);
           });
         })
         .catch((error) => {
@@ -299,11 +278,11 @@ document
             chrome.tabs.create({ url: `https://www.youtube.com/channel/${data.items[0].id}` });
           });
 
-          saveChannelIdToLocalStorage(data.items[0].id);
+          saveChannelIdToStorage(data.items[0].id);
 
           row.addEventListener("dblclick", () => {
             row.remove();
-            removeChannelIdFromLocalStorage(channelIdCell.textContent);
+            removeChannelIdFromStorage(channelIdCell.textContent);
           });
         })
         .catch((error) => {
@@ -417,7 +396,7 @@ function sortTableNumerically(n) {
 }
 
 //Storage logic
-function saveChannelIdToLocalStorage(id) {
+function saveChannelIdToStorage(id) {
   chrome.storage.sync.get(["savedChannels"], (data) => {
     let storedArray = data.savedChannels || [];
     if (!storedArray.includes(id)) {
@@ -427,7 +406,7 @@ function saveChannelIdToLocalStorage(id) {
   });
 }
 
-function removeChannelIdFromLocalStorage(id) {
+function removeChannelIdFromStorage(id) {
   chrome.storage.sync.get(["savedChannels"], (data) => {
     let storedArray = data.savedChannels || [];
     storedArray = storedArray.filter((storedId) => storedId !== id);

@@ -46,9 +46,11 @@
       document
         .getElementById("apiButton")
         .addEventListener("click", (event) => {
-          document.getElementById("apiForm").value =
-            " ";
           let apiKey = document.getElementById("apiForm").value.trim();
+             if (!apiKey) {
+            alert("Please enter a valid API key.");
+            return;
+          }
           localStorage.setItem("apiKey", apiKey);
           location.href = "main.html";
         });

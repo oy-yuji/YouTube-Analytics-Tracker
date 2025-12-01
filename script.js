@@ -1,30 +1,110 @@
-//Display modal
-window.addEventListener("DOMContentLoaded", () => {
-  const modal = new bootstrap.Modal(document.getElementById("staticBackdrop"));
-  modal.show();
-});
+// Declare apiKey and initialize after storage is read to avoid races
+let apiKey = "";
 
-const apiKey = localStorage.getItem("apiKey");
+// Show the intro/help modal
+function showIntroModal() {
+  const modalEl = document.getElementById("staticBackdrop");
+  if (!modalEl) return;
 
-//Fetch JSON data to populate the table for demonstrational purposes.
-window.addEventListener("DOMContentLoaded", fetchJSONFileData);
+  // Simple lightweight modal show/hide without Bootstrap JS (CSP-safe)
+  // Create backdrop
+  let backdrop = document.querySelector('.custom-modal-backdrop');
+  if (!backdrop) {
+    backdrop = document.createElement('div');
+    backdrop.className = 'custom-modal-backdrop';
+    Object.assign(backdrop.style, {
+      position: 'fixed',
+      top: '0',
+      left: '0',
+      right: '0',
+      bottom: '0',
+      backgroundColor: 'rgba(0,0,0,0.5)',
+      zIndex: '1050'
+    });
+    document.body.appendChild(backdrop);
+  }
 
-//Fetch data from local storage when window opens. 
-window.addEventListener("DOMContentLoaded", fetchLocalStorageData);
+  // Show modal element
+  modalEl.style.display = 'block';
+  modalEl.classList.add('show');
+  modalEl.setAttribute('aria-hidden', 'false');
+
+  // Wire up close buttons inside modal
+  modalEl.querySelectorAll('[data-bs-dismiss="modal"], .btn-close').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      modalEl.style.display = 'none';
+      modalEl.classList.remove('show');
+      modalEl.setAttribute('aria-hidden', 'true');
+      if (backdrop && backdrop.parentNode) backdrop.parentNode.removeChild(backdrop);
+    });
+  });
+}
+
+// Load API key and saved channels from chrome.storage.sync
+function loadSettings(callback) {
+  chrome.storage.sync.get(["apiKey", "savedChannels"], (res) => {
+    callback(res || {});
+  });
+}
+
+// Initialize the app after DOM is ready
+function init() {
+  showIntroModal();
+
+  loadSettings((res) => {
+    apiKey = res.apiKey || "";
+
+    if (!apiKey) {
+      console.warn("No API key found; redirecting to index.html");
+      location.href = "index.html";
+      return;
+    }
+
+    // Load demo channels packaged with the extension
+    fetchJSONFileData();
+
+    // Populate saved channels
+    const saved = res.savedChannels || [];
+    saved.forEach((id) => fetchAndDisplayChannel(id));
+    // Attach table header listeners (sorting) after DOM is ready
+    attachTableHeaderListeners();
+  });
+}
+
+window.addEventListener("DOMContentLoaded", init);
 
 //Function to load JSON file data.
 function fetchJSONFileData() {
-  fetch("savedChannels.json")
+  fetch(chrome.runtime.getURL("savedChannels.json"))
     .then((response) => response.json())
     .then((channelIds) => {
       channelIds.forEach((id) => fetchAndDisplayChannel(id));
-    });
+    })
+    .catch((err) => console.error("Failed to load savedChannels.json:", err));
 }
 
-//Function to load data from local storage.
+// Attach click listeners to table headers (CSP-safe alternative to inline onclick)
+function attachTableHeaderListeners() {
+  const headers = document.querySelectorAll('#myTable thead th');
+  if (!headers || headers.length === 0) return;
+
+  headers.forEach((th) => {
+    const field = th.dataset.field || "";
+    const idx = Number(th.dataset.index);
+    if (field === "channel") {
+      th.addEventListener("click", () => sortTable(idx));
+    } else if (field === "subscribers" || field === "views" || field === "videos") {
+      th.addEventListener("click", () => sortTableNumerically(idx));
+    }
+  });
+}
+
+//Function to load data from storage.
 function fetchLocalStorageData() {
-  let stored = JSON.parse(localStorage.getItem("savedChannels")) || [];
-  stored.forEach((id) => fetchAndDisplayChannel(id));
+  chrome.storage.sync.get(["savedChannels"], (data) => {
+    let stored = data.savedChannels || [];
+    stored.forEach((id) => fetchAndDisplayChannel(id));
+  });
 }
 
 //Logic to use the channel IDs and fetch information from the API and populate the table.
@@ -224,18 +304,21 @@ function sortTableNumerically(n) {
   }
 }
 
-//Local storage logic
+//Storage logic
 function saveChannelIdToLocalStorage(id) {
-  let storedArray = JSON.parse(localStorage.getItem("savedChannels")) || [];
-
-  if (!storedArray.includes(id)) {
-    storedArray.push(id);
-    localStorage.setItem("savedChannels", JSON.stringify(storedArray));
-  }
+  chrome.storage.sync.get(["savedChannels"], (data) => {
+    let storedArray = data.savedChannels || [];
+    if (!storedArray.includes(id)) {
+      storedArray.push(id);
+      chrome.storage.sync.set({ savedChannels: storedArray });
+    }
+  });
 }
 
 function removeChannelIdFromLocalStorage(id) {
-  let storedArray = JSON.parse(localStorage.getItem("savedChannels")) || [];
-  storedArray = storedArray.filter((storedId) => storedId !== id);
-  localStorage.setItem("savedChannels", JSON.stringify(storedArray));
+  chrome.storage.sync.get(["savedChannels"], (data) => {
+    let storedArray = data.savedChannels || [];
+    storedArray = storedArray.filter((storedId) => storedId !== id);
+    chrome.storage.sync.set({ savedChannels: storedArray });
+  });
 }

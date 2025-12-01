@@ -36,24 +36,8 @@
           Enter
         </button>
       </div>
+      <div id="apiError" class="text-danger small" role="alert" aria-live="polite"></div>
     </div>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-      crossorigin="anonymous"
-    ></script>
-    <script>
-      document
-        .getElementById("apiButton")
-        .addEventListener("click", (event) => {
-          let apiKey = document.getElementById("apiForm").value.trim();
-             if (!apiKey) {
-            alert("Please enter a valid API key.");
-            return;
-          }
-          localStorage.setItem("apiKey", apiKey);
-          location.href = "main.html";
-        });
-    </script>
+   <script src="index.js"></script>
   </body>
 </html>

@@ -81,26 +81,17 @@
       <table class="table table-hover text-center" id="myTable">
         <thead class="text-center">
           <tr>
-            <th onclick="sortTable(0)" data-field="channel">Channel Name</th>
-            <th onclick="sortTableNumerically(1)" data-field="subscribers">
-              Subscribers
-            </th>
-            <th onclick="sortTableNumerically(2)" data-field="views">Views</th>
-            <th onclick="sortTableNumerically(3)" data-field="videos">
-              Videos
-            </th>
-            <th data-field="channelId">Channel Id</th>
+            <th data-field="channel" data-index="0">Channel Name</th>
+            <th data-field="subscribers" data-index="1">Subscribers</th>
+            <th data-field="views" data-index="2">Views</th>
+            <th data-field="videos" data-index="3">Videos</th>
+            <th data-field="channelId" data-index="4">Channel Id</th>
           </tr>
         </thead>
         <tbody class="text-center"></tbody>
       </table>
     </div>
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-      crossorigin="anonymous"
-    ></script>
     <script src="script.js"></script>
   </body>
 </html>

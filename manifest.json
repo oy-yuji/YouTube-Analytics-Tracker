@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Analytics Tracker",
+  "version": "0.1.0",
+  "description": "Track basic YouTube channel statistics.",
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "YouTube Tracker"
+  },
+  "permissions": ["storage"],
+  "host_permissions": ["https://www.googleapis.com/*"],
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}

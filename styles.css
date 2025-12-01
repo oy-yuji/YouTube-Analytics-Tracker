@@ -169,3 +169,19 @@ body.dark-mode .popup p.small a {
     color: #6ea8fe;
 }
 
+/* Dark mode styles for #myTable */
+body.dark-mode #myTable {
+    background-color: #1a1a1a !important;
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode #myTable thead {
+    background-color: #2d2d2d !important;
+    color: #fff !important;
+}
+
+body.dark-mode #myTable tbody tr:hover {
+    background-color: #2d2d2d !important;
+    color: #fff !important;
+}
+

@@ -1,32 +1,3 @@
-// Dark mode functionality for popup
-function initDarkMode() {
-  chrome.storage.sync.get(['darkMode'], (res) => {
-    if (res.darkMode) {
-      document.body.classList.add('dark-mode');
-      updateDarkModeButton(true);
-    }
-  });
-
-  const toggleBtn = document.getElementById('darkModeToggle');
-  if (toggleBtn) {
-    toggleBtn.addEventListener('click', () => {
-      const isDark = document.body.classList.toggle('dark-mode');
-      chrome.storage.sync.set({ darkMode: isDark });
-      updateDarkModeButton(isDark);
-    });
-  }
-}
-
-function updateDarkModeButton(isDark) {
-  const toggleBtn = document.getElementById('darkModeToggle');
-  if (toggleBtn) {
-    toggleBtn.textContent = isDark ? 'Light' : 'Dark';
-  }
-}
-
-// Initialize dark mode on page load
-initDarkMode();
-
 // Save API key into chrome.storage and navigate to main.html
 document.getElementById("apiButton").addEventListener("click", () => {
   const apiKey = document.getElementById("apiForm").value.trim();

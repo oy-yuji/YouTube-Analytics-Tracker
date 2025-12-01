@@ -6,32 +6,6 @@ function formatNumber(num) {
   return Number(num).toLocaleString('en-US');
 }
 
-// Dark mode functionality
-function initDarkMode() {
-  chrome.storage.sync.get(['darkMode'], (res) => {
-    if (res.darkMode) {
-      document.body.classList.add('dark-mode');
-      updateDarkModeButton(true);
-    }
-  });
-
-  const toggleBtn = document.getElementById('darkModeToggle');
-  if (toggleBtn) {
-    toggleBtn.addEventListener('click', () => {
-      const isDark = document.body.classList.toggle('dark-mode');
-      chrome.storage.sync.set({ darkMode: isDark });
-      updateDarkModeButton(isDark);
-    });
-  }
-}
-
-function updateDarkModeButton(isDark) {
-  const toggleBtn = document.getElementById('darkModeToggle');
-  if (toggleBtn) {
-    toggleBtn.textContent = isDark ? 'Light' : 'Dark';
-  }
-}
-
 // Show the intro/help modal
 function showIntroModal() {
   const modalEl = document.getElementById("staticBackdrop");
@@ -80,7 +54,6 @@ function loadSettings(callback) {
 
 // Initialize the app after DOM is ready
 function init() {
-  initDarkMode();
   showIntroModal();
 
   loadSettings((res) => {

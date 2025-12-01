@@ -9,7 +9,7 @@
   },
   "permissions": ["storage"],
   "host_permissions": ["https://www.googleapis.com/*"],
-  "homepage_url": "https://channel-panel.github.io/channel-pannel-privacy-policy/",
+  "homepage_url": "https://channel-panel.github.io/channel-panel-privacy-policy/",
   "icons": {
     "16": "icon/icon-16.png",
     "32": "icon/icon-32.png",

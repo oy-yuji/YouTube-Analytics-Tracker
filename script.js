@@ -6,6 +6,22 @@ function formatNumber(num) {
   return Number(num).toLocaleString('en-US');
 }
 
+// Show error message to user
+function showError(message) {
+  const errorAlert = document.getElementById('errorAlert');
+  const errorMessage = document.getElementById('errorMessage');
+  if (errorAlert && errorMessage) {
+    errorMessage.textContent = message;
+    errorAlert.style.display = 'block';
+    errorAlert.classList.add('show');
+    // Auto-hide after 5 seconds
+    setTimeout(() => {
+      errorAlert.style.display = 'none';
+      errorAlert.classList.remove('show');
+    }, 5000);
+  }
+}
+
 // Show the intro/help modal
 function showIntroModal() {
   const modalEl = document.getElementById("staticBackdrop");
@@ -117,8 +133,16 @@ function fetchAndDisplayChannel(id) {
   fetch(
     `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${id}&key=${apiKey}`
   )
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`API request failed: ${response.status}`);
+      }
+      return response.json();
+    })
     .then((data) => {
+      if (data.error) {
+        throw new Error(data.error.message || 'API Error');
+      }
       if (!data.items || data.items.length === 0) {
         console.warn(`No data returned for channel ID: ${id}`);
         return;
@@ -140,6 +164,16 @@ function fetchAndDisplayChannel(id) {
         row.remove();
         removeChannelIdFromLocalStorage(channelIdCell.textContent);
       });
+    })
+    .catch((error) => {
+      console.error(`Failed to fetch channel ${id}:`, error);
+      if (error.message.includes('403')) {
+        showError('API quota exceeded. Please try again later.');
+      } else if (error.message.includes('400')) {
+        showError('Invalid API key. Please check your settings.');
+      } else {
+        showError(`Failed to load channel: ${error.message}`);
+      }
     });
 }
 
@@ -160,8 +194,20 @@ document
       fetch(
         `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${id}&key=${apiKey}`
       )
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`API request failed: ${response.status}`);
+          }
+          return response.json();
+        })
         .then((data) => {
+          if (data.error) {
+            throw new Error(data.error.message || 'API Error');
+          }
+          if (!data.items || data.items.length === 0) {
+            showError('Channel not found. Please check the URL and try again.');
+            return;
+          }
           let tbody = document.querySelector("#myTable tbody");
           let row = tbody.insertRow(-1);
           let channelNameCell = row.insertCell(0);
@@ -181,15 +227,36 @@ document
             row.remove();
             removeChannelIdFromLocalStorage(channelIdCell.textContent);
           });
-
+        })
+        .catch((error) => {
+          console.error('Error adding channel:', error);
+          if (error.message.includes('403')) {
+            showError('API quota exceeded. Please try again later.');
+          } else if (error.message.includes('400')) {
+            showError('Invalid API key. Please check your settings.');
+          } else {
+            showError(`Failed to add channel: ${error.message}`);
+          }
         });
     } else if (matchHandleURL) {
       handle = matchHandleURL[0];
       fetch(
         `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&forHandle=${handle}&key=${apiKey}`
       )
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`API request failed: ${response.status}`);
+          }
+          return response.json();
+        })
         .then((data) => {
+          if (data.error) {
+            throw new Error(data.error.message || 'API Error');
+          }
+          if (!data.items || data.items.length === 0) {
+            showError('Channel not found. Please check the handle and try again.');
+            return;
+          }
           let tbody = document.querySelector("#myTable tbody");
           let row = tbody.insertRow(-1);
           let channelNameCell = row.insertCell(0);
@@ -209,11 +276,20 @@ document
           row.addEventListener("dblclick", () => {
             row.remove();
             removeChannelIdFromLocalStorage(channelIdCell.textContent);
-
           });
-
         })
-        .catch((error) => console.error(error));
+        .catch((error) => {
+          console.error('Error adding channel:', error);
+          if (error.message.includes('403')) {
+            showError('API quota exceeded. Please try again later.');
+          } else if (error.message.includes('400')) {
+            showError('Invalid API key. Please check your settings.');
+          } else {
+            showError(`Failed to add channel: ${error.message}`);
+          }
+        });
+    } else {
+      showError('Invalid channel URL. Please enter a valid YouTube channel URL or handle.');
     }
   });
 

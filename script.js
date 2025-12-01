@@ -229,6 +229,9 @@ document
             row.remove();
             removeChannelIdFromStorage(channelIdCell.textContent);
           });
+          
+          // Clear input field after successful addition
+          document.getElementById('userId').value = '';
         })
         .catch((error) => {
           console.error('Error adding channel:', error);
@@ -284,6 +287,9 @@ document
             row.remove();
             removeChannelIdFromStorage(channelIdCell.textContent);
           });
+          
+          // Clear input field after successful addition
+          document.getElementById('userId').value = '';
         })
         .catch((error) => {
           console.error('Error adding channel:', error);

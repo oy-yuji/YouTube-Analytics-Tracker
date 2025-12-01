@@ -3,13 +3,8 @@
 }
 
 .popup {
-    /* Prefer a landscape popup: wider than tall */
-    width: 1280px;
-    min-width: 1280px;
-    max-width: 1280px;
-    min-height: 720px;
-    overflow-y: auto;
-    box-sizing: border-box;
+    min-width: 420px;
+    max-width: 600px;
 }
 
 .popup {

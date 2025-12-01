@@ -2,62 +2,41 @@
     cursor:pointer;
 }
 
+/* Main popup wrapper */
 .popup {
-        /* Prefer a landscape popup: wider than tall */
-        width: 480px;
-        min-width: 360px;
-        max-width: 600px;
-        /* Limit height so popup stays shorter than it is wide */
-        max-height: 420px;
-        overflow-y: auto;
-        box-sizing: border-box;
+  width: 100% !important;
+  max-height: 420px;
+  padding: 12px;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
-/* Force popup page to the desired width and remove body margins that
-     can make the popup taller than wide. Use specific overrides so Bootstrap
-     spacing doesn't inflate height in the extension popup. */
-html, body {
-    width: 480px !important;
-    height: auto !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    box-sizing: border-box;
-    overflow: hidden;
+/* Override Bootstrap container shrink */
+.container.popup {
+  max-width: 100% !important;
+  padding: 8px !important;
 }
 
-/* Remove extra container padding from Bootstrap inside the popup */
-.popup.container {
-    max-width: none !important;
-    padding: 8px !important;
-}
-
-/* Reduce top margins applied by Bootstrap utility classes inside popup */
-.popup .mt-3 { margin-top: 6px !important; }
-.popup .mb-3 { margin-bottom: 6px !important; }
-
-.popup {
-    padding: 12px;
-}
+/* Typography & component sizing */
 .popup h1 {
-    font-size: 18px;
-    margin-bottom: 6px;
+  font-size: 18px;
+  margin-bottom: 6px;
 }
 .popup .lead {
-    font-size: 12px;
-    margin-bottom: 8px;
+  font-size: 12px;
+  margin-bottom: 8px;
 }
 .popup .input-group {
-    gap: 6px;
+  gap: 6px;
 }
 .popup .form-control {
-    font-size: 13px;
+  font-size: 13px;
 }
 .popup .btn {
-    padding: 6px 10px;
-    font-size: 13px;
+  padding: 6px 10px;
+  font-size: 13px;
 }
 .popup #apiError {
-    margin-top: 6px;
-    min-height: 18px;
+  margin-top: 6px;
+  min-height: 18px;
 }
-

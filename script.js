@@ -14,7 +14,6 @@ function showError(message) {
     errorMessage.textContent = message;
     errorAlert.style.display = 'block';
     errorAlert.classList.add('show');
-    // Auto-hide after 5 seconds
     setTimeout(() => {
       errorAlert.style.display = 'none';
       errorAlert.classList.remove('show');

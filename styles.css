@@ -1,42 +1,9 @@
-
 [onClick] {
-        cursor: pointer;
+    cursor:pointer;
 }
 
-/* Popup container: landscape-first, compact card-like appearance */
 .popup {
-    width: 760px;
-    max-width: 760px;
-    min-width: 360px;
-    max-height: 560px;
-    overflow-y: auto;
-    box-sizing: border-box;
-    background: #fff;
-    border-radius: 6px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-/* Typography and small spacing for popup */
-.popup-header { padding: 6px 4px; }
-.popup-title { font-size: 16px; margin: 0; font-weight: 600; }
-.popup-sub { font-size: 12px; color: #666; margin: 4px 0 0 0; }
-
-.popup-main { display: flex; flex-direction: column; gap: 6px; }
-.form-row { display: flex; gap: 8px; align-items: center; }
-.form-row .form-control { flex: 1; font-size: 13px; }
-.form-row .btn { flex: 0 0 120px; font-size: 13px; }
-
-.popup-footer { color: #666; padding-top: 6px; font-size: 12px; }
-
-#apiError { margin-top: 6px; min-height: 18px; color: #c00; }
-
-/* Responsive fallback for narrow windows */
-@media (max-width: 520px) {
-    html, body, .popup { width: 360px !important; }
-    .form-row .btn { flex-basis: 100px; }
+    min-width: 420px;
+    max-width: 600px;
 }
 

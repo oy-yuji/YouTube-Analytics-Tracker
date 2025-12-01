@@ -12,28 +12,24 @@
     <title>YouTube Channel Analytics Tracker</title>
   </head>
   <body>
-    <div class="container mt-3 popup">
-      <div class="text-center">
-        <h1>Channel Tracker</h1>
-        <p class="lead">Enter your YouTube Data API key to continue.</p>
+    <div class="container mt-5 popup">
+      <div class="container text-center">
+        <p>Please enter your API key</p>
       </div>
-
-      <div class="input-group mb-2">
+      <div class="input-group mb-3">
         <input
           type="text"
           class="form-control"
           id="apiForm"
           value=""
-          placeholder="Paste API key here"
+          placeholder="Your API Key"
           aria-label="User API Key"
           aria-describedby="button-addon2"
-          autofocus
         />
         <button class="btn btn-outline-secondary" type="button" id="apiButton">
-          Continue
+          Enter
         </button>
       </div>
-
       <div id="apiError" class="text-danger small" role="alert" aria-live="polite"></div>
     </div>
    <script src="index.js"></script>

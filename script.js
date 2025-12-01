@@ -1,18 +1,5 @@
-// Store OAuth token
-let authToken = "";
-
-// Get OAuth token from background service worker
-async function getAuthToken() {
-  return new Promise((resolve, reject) => {
-    chrome.runtime.sendMessage({ action: 'getAuthToken', interactive: false }, (response) => {
-      if (response && response.success) {
-        resolve(response.token);
-      } else {
-        reject(new Error(response?.error || 'Failed to get auth token'));
-      }
-    });
-  });
-}
+// Declare apiKey and initialize after storage is read to avoid races
+let apiKey = "";
 
 // Show the intro/help modal
 function showIntroModal() {
@@ -53,27 +40,26 @@ function showIntroModal() {
   });
 }
 
-// Load saved channels from chrome.storage.sync
+// Load API key and saved channels from chrome.storage.sync
 function loadSettings(callback) {
-  chrome.storage.sync.get(["savedChannels"], (res) => {
+  chrome.storage.sync.get(["apiKey", "savedChannels"], (res) => {
     callback(res || {});
   });
 }
 
 // Initialize the app after DOM is ready
-async function init() {
+function init() {
   showIntroModal();
 
-  try {
-    // Get OAuth token from background service worker
-    authToken = await getAuthToken();
-  } catch (error) {
-    console.error("Failed to get auth token:", error);
-    location.href = "index.html";
-    return;
-  }
-
   loadSettings((res) => {
+    apiKey = res.apiKey || "";
+
+    if (!apiKey) {
+      console.warn("No API key found; redirecting to index.html");
+      location.href = "index.html";
+      return;
+    }
+
     // Load demo channels packaged with the extension
     fetchJSONFileData();
 
@@ -124,12 +110,7 @@ function fetchLocalStorageData() {
 //Logic to use the channel IDs and fetch information from the API and populate the table.
 function fetchAndDisplayChannel(id) {
   fetch(
-    `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${id}`,
-    {
-      headers: {
-        'Authorization': `Bearer ${authToken}`
-      }
-    }
+    `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${id}&key=${apiKey}`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -172,12 +153,7 @@ document
     if (matchchannelIdURL) {
       id = matchchannelIdURL[0];
       fetch(
-        `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${id}`,
-        {
-          headers: {
-            'Authorization': `Bearer ${authToken}`
-          }
-        }
+        `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${id}&key=${apiKey}`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -205,12 +181,7 @@ document
     } else if (matchHandleURL) {
       handle = matchHandleURL[0];
       fetch(
-        `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&forHandle=${handle}`,
-        {
-          headers: {
-            'Authorization': `Bearer ${authToken}`
-          }
-        }
+        `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&forHandle=${handle}&key=${apiKey}`
       )
         .then((response) => response.json())
         .then((data) => {

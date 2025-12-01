@@ -72,6 +72,18 @@ function loadSettings(callback) {
 function init() {
   showIntroModal();
 
+  // Add event listener for error alert close button
+  const errorAlertClose = document.getElementById('errorAlertClose');
+  if (errorAlertClose) {
+    errorAlertClose.addEventListener('click', () => {
+      const errorAlert = document.getElementById('errorAlert');
+      if (errorAlert) {
+        errorAlert.style.display = 'none';
+        errorAlert.classList.remove('show');
+      }
+    });
+  }
+
   loadSettings((res) => {
     apiKey = res.apiKey || "";
 

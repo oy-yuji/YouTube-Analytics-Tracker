@@ -1,3 +1,10 @@
+// Load existing API key on page load
+chrome.storage.sync.get(['apiKey'], (res) => {
+  if (res.apiKey) {
+    document.getElementById('apiForm').value = res.apiKey;
+  }
+});
+
 // Save API key into chrome.storage and navigate to main.html
 document.getElementById("apiButton").addEventListener("click", () => {
   const apiKey = document.getElementById("apiForm").value.trim();

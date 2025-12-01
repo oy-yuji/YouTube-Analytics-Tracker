@@ -7,8 +7,18 @@
     "default_popup": "index.html",
     "default_title": "YouTube Tracker"
   },
-  "permissions": ["storage"],
+  "permissions": ["identity", "storage"],
   "host_permissions": ["https://www.googleapis.com/*"],
+  "oauth2": {
+    "client_id": "YOUR_CLIENT_ID.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/youtube.readonly"
+    ]
+  },
+  "key": "YOUR_EXTENSION_KEY_HERE",
+  "background": {
+    "service_worker": "background.js"
+  },
   "icons": {
     "16": "icon/icon16.png",
     "32": "icon/icon32.png",

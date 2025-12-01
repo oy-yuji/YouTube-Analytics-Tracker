@@ -2,3 +2,8 @@
     cursor:pointer;
 }
 
+.popup {
+    min-width: 420px;
+    max-width: 600px;
+}
+

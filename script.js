@@ -360,13 +360,16 @@ function sortTableNumerically(n) {
       shouldSwitch = false;
       x = rows[i].getElementsByTagName("TD")[n];
       y = rows[i + 1].getElementsByTagName("TD")[n];
+      // Remove commas before converting to number
+      var xNum = Number(x.innerHTML.replace(/,/g, ''));
+      var yNum = Number(y.innerHTML.replace(/,/g, ''));
       if (dir == "asc") {
-        if (Number(x.innerHTML) > Number(y.innerHTML)) {
+        if (xNum > yNum) {
           shouldSwitch = true;
           break;
         }
       } else if (dir == "desc") {
-        if (Number(x.innerHTML) < Number(y.innerHTML)) {
+        if (xNum < yNum) {
           shouldSwitch = true;
           break;
         }

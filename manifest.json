@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "YouTube Analytics Tracker",
+  "name": "Channel Panel",
   "version": "1.0.0",
-  "description": "Track basic YouTube channel statistics.",
+  "description": "Track YouTube channel statistics in one place.",
   "action": {
     "default_popup": "index.html",
-    "default_title": "YouTube Tracker"
+    "default_title": "Channel Panel"
   },
   "permissions": ["storage"],
   "host_permissions": ["https://www.googleapis.com/*"],

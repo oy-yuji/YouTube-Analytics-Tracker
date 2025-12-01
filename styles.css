@@ -1,9 +1,81 @@
 [onClick] {
-    cursor:pointer;
+    cursor: pointer;
+}
+
+/* Maximum allowable popup size for Chrome extensions (800x600) - only applies to popup page */
+body.popup-page {
+    margin: 0;
+    padding: 0;
+    width: 800px;
+    height: 600px;
+    overflow: hidden;
 }
 
 .popup {
-    min-width: 420px;
+    width: 800px;
+    height: 600px;
+    padding: 24px 32px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+
+.popup-header {
+    text-align: center;
+}
+
+.popup-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+}
+
+.popup-sub {
+    font-size: 16px;
+    color: #666;
+    margin: 0;
+}
+
+.popup-main {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.form-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.form-row .form-control {
+    flex: 1;
+    font-size: 16px;
+    padding: 12px 16px;
+}
+
+.form-row .btn {
+    flex: 0 0 140px;
+    font-size: 16px;
+    padding: 12px 16px;
+}
+
+#apiError {
+    min-height: 24px;
+    font-size: 14px;
+    color: #dc3545;
+    text-align: center;
+}
+
+.popup-footer {
+    text-align: center;
+    font-size: 13px;
+    color: #999;
+    margin-top: 8px;
 }
 

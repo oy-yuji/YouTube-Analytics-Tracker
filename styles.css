@@ -82,3 +82,90 @@ body.popup-page {
 .popup p.small { text-align: center; margin-top: 6px; }
 .popup p.small a { color: #0d6efd; text-decoration: underline; }
 
+/* Dark mode styles */
+body.dark-mode {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+
+body.dark-mode .navbar {
+    background-color: #2d2d2d !important;
+    border-bottom: 1px solid #444;
+}
+
+body.dark-mode .table {
+    color: #e0e0e0;
+    background-color: #1a1a1a;
+}
+
+body.dark-mode .table-hover tbody tr:hover {
+    background-color: #2d2d2d;
+    color: #fff;
+}
+
+body.dark-mode thead {
+    background-color: #2d2d2d;
+    color: #fff;
+}
+
+body.dark-mode .form-control {
+    background-color: #2d2d2d;
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+body.dark-mode .form-control:focus {
+    background-color: #2d2d2d;
+    border-color: #666;
+    color: #e0e0e0;
+}
+
+body.dark-mode .form-control::placeholder {
+    color: #888;
+}
+
+body.dark-mode .btn-outline-success {
+    color: #4ade80;
+    border-color: #4ade80;
+}
+
+body.dark-mode .btn-outline-success:hover {
+    background-color: #4ade80;
+    color: #1a1a1a;
+}
+
+body.dark-mode .btn-outline-secondary {
+    color: #a0a0a0;
+    border-color: #555;
+}
+
+body.dark-mode .btn-outline-secondary:hover {
+    background-color: #555;
+    color: #fff;
+}
+
+body.dark-mode .modal-content {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+}
+
+body.dark-mode .modal-header {
+    border-bottom-color: #444;
+}
+
+body.dark-mode .btn-close {
+    filter: invert(1);
+}
+
+body.dark-mode .popup-sub {
+    color: #aaa;
+}
+
+body.dark-mode .popup-footer {
+    color: #888;
+}
+
+body.dark-mode .popup p.small a {
+    color: #6ea8fe;
+}
+

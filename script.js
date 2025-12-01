@@ -1,6 +1,37 @@
 // Declare apiKey and initialize after storage is read to avoid races
 let apiKey = "";
 
+// Format numbers with commas
+function formatNumber(num) {
+  return Number(num).toLocaleString('en-US');
+}
+
+// Dark mode functionality
+function initDarkMode() {
+  chrome.storage.sync.get(['darkMode'], (res) => {
+    if (res.darkMode) {
+      document.body.classList.add('dark-mode');
+      updateDarkModeButton(true);
+    }
+  });
+
+  const toggleBtn = document.getElementById('darkModeToggle');
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      const isDark = document.body.classList.toggle('dark-mode');
+      chrome.storage.sync.set({ darkMode: isDark });
+      updateDarkModeButton(isDark);
+    });
+  }
+}
+
+function updateDarkModeButton(isDark) {
+  const toggleBtn = document.getElementById('darkModeToggle');
+  if (toggleBtn) {
+    toggleBtn.textContent = isDark ? 'Light' : 'Dark';
+  }
+}
+
 // Show the intro/help modal
 function showIntroModal() {
   const modalEl = document.getElementById("staticBackdrop");
@@ -49,6 +80,7 @@ function loadSettings(callback) {
 
 // Initialize the app after DOM is ready
 function init() {
+  initDarkMode();
   showIntroModal();
 
   loadSettings((res) => {
@@ -127,9 +159,9 @@ function fetchAndDisplayChannel(id) {
       let channelIdCell = row.insertCell(4);
 
       channelNameCell.textContent = data.items[0].snippet.title;
-      subscriberCell.textContent = data.items[0].statistics.subscriberCount;
-      viewCountCell.textContent = data.items[0].statistics.viewCount;
-      videoCountCell.textContent = data.items[0].statistics.videoCount;
+      subscriberCell.textContent = formatNumber(data.items[0].statistics.subscriberCount);
+      viewCountCell.textContent = formatNumber(data.items[0].statistics.viewCount);
+      videoCountCell.textContent = formatNumber(data.items[0].statistics.videoCount);
       channelIdCell.textContent = data.items[0].id;
       row.addEventListener("dblclick", () => {
         row.remove();
@@ -166,9 +198,9 @@ document
           let channelIdCell = row.insertCell(4);
 
           channelNameCell.textContent = data.items[0].snippet.title;
-          subscriberCell.textContent = data.items[0].statistics.subscriberCount;
-          viewCountCell.textContent = data.items[0].statistics.viewCount;
-          videoCountCell.textContent = data.items[0].statistics.videoCount;
+          subscriberCell.textContent = formatNumber(data.items[0].statistics.subscriberCount);
+          viewCountCell.textContent = formatNumber(data.items[0].statistics.viewCount);
+          videoCountCell.textContent = formatNumber(data.items[0].statistics.videoCount);
           channelIdCell.textContent = data.items[0].id;
           saveChannelIdToLocalStorage(data.items[0].id);
 
@@ -194,9 +226,9 @@ document
           let channelIdCell = row.insertCell(4);
 
           channelNameCell.textContent = data.items[0].snippet.title;
-          subscriberCell.textContent = data.items[0].statistics.subscriberCount;
-          viewCountCell.textContent = data.items[0].statistics.viewCount;
-          videoCountCell.textContent = data.items[0].statistics.videoCount;
+          subscriberCell.textContent = formatNumber(data.items[0].statistics.subscriberCount);
+          viewCountCell.textContent = formatNumber(data.items[0].statistics.viewCount);
+          videoCountCell.textContent = formatNumber(data.items[0].statistics.videoCount);
           channelIdCell.textContent = data.items[0].id;
 
           saveChannelIdToLocalStorage(data.items[0].id);
